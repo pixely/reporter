@@ -19,6 +19,7 @@
     "bootstrap": "^4.0.0-alpha.3",
     "dropbox": "^2.2.1",
     "localforage": "^1.4.2",
+    "moment": "^2.15.1",
     "node-sass": "^3.9.2",
     "react": "15.3.0",
     "react-dom": "15.3.0",
