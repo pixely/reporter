@@ -3,6 +3,7 @@ import styles from './index.scss';
 import React from 'react';
 import Dropbox from 'dropbox';
 import localForage from 'localforage';
+import moment from 'moment';
 
 var ACCESS_TOKEN = 'S9NydbWMmbUAAAAAAACFfM9Ds4sDu_oA-5URQl3fZSKr2ey6e3dcc5bacWoyGEHQ';
 
@@ -35,6 +36,7 @@ function listFiles() {
       });
   return false;
 }
+
 function displayFiles(files) {
   var dbx = new Dropbox({accessToken: ACCESS_TOKEN});
   if (typeof files === 'object') {
@@ -52,12 +54,25 @@ function displayFiles(files) {
 }
 
 
-function generateReport(type) {
+function generateReport(type, start, finish) {
 
   var report = [];
 
   localForage.iterate(function(value, key, iterationNumber) {
     for(var snapshot of value.snapshots){
+
+      var day = moment(snapshot.date);
+
+      if( typeof start === 'string' ) {
+
+      }
+
+      if( typeof finish === 'string' ) {
+
+      }
+
+      console.log(day.format("dddd, MMMM Do YYYY, h:mm:ss a"));
+
       if( typeof snapshot[type] === 'string' || typeof snapshot[type] === 'number') {
         report.push({
           date: snapshot.date,
