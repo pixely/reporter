@@ -2,8 +2,28 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './index.scss';
 import React from 'react';
 import Dropbox from 'dropbox';
+import localForage from 'localforage';
 
 var ACCESS_TOKEN = 'S9NydbWMmbUAAAAAAACFfM9Ds4sDu_oA-5URQl3fZSKr2ey6e3dcc5bacWoyGEHQ';
+
+function configureLocalForage() {
+  localForage.config({
+    name        : 'reporter',
+    version     : 1.0,
+    description : 'Storing data from reports generated with ReporterApp'
+  });
+}
+
+function saveReport(report) {
+  var reader = new FileReader();
+  console.log(report);
+  reader.addEventListener("loadend", function(test) {
+    localForage.setItem(report.name, JSON.parse(reader.result),function(err, value){
+      console.log(err, value);
+    });
+  });
+  reader.readAsText(report.fileBlob);
+}
 
 function listFiles() {
   var dbx = new Dropbox({accessToken: ACCESS_TOKEN});
@@ -23,22 +43,28 @@ function displayFiles(files) {
     for(let report of files) {
        dbx.filesDownload({path: report.path_lower})
           .then(function (data) {
-            console.log(data.fileBlob);
-            var reader = new FileReader();
-            reader.addEventListener("loadend", function() {
-              console.log(JSON.parse(reader.result));
-              // reader.result contains the contents of blob as a typed array
-            });
-            reader.readAsText(data.fileBlob);
+            saveReport(data);
           })
           .catch(function (error) {
             console.error(error);
           });
     }
   }
+
+  localForage.iterate(function(value, key, iterationNumber) {
+    // Resulting key/value pair -- this callback
+    // will be executed for every item in the
+    // database.
+    console.log([key, value]);
+  }, function() {
+    console.log('Iteration has completed');
+  });
+
 }
 
+configureLocalForage();
 listFiles();
+
 
 export default class App extends React.Component {
   render() {
