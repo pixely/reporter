@@ -58,14 +58,14 @@ function generateReport(type) {
 
   localForage.iterate(function(value, key, iterationNumber) {
     for(var snapshot of value.snapshots){
-      report.push({
-        date: snapshot.date,
-        value: snapshot.battery
-      });
+      if( typeof snapshot[type] === 'string' || typeof snapshot[type] === 'number') {
+        report.push({
+          date: snapshot.date,
+          value: snapshot[type]
+        });
+      }
     }
   }, function() {
-
-
   });
 
   return report;
