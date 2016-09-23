@@ -16,7 +16,6 @@ function configureLocalForage() {
 
 function saveReport(report) {
   var reader = new FileReader();
-  console.log(report);
   reader.addEventListener("loadend", function(test) {
     localForage.setItem(report.name, JSON.parse(reader.result),function(err, value){
       console.log(err, value);
@@ -30,7 +29,6 @@ function listFiles() {
   dbx.filesListFolder({path: '/Apps/Reporter-App'})
       .then(function (response) {
         displayFiles(response.entries);
-        console.log(response);
       })
       .catch(function (error) {
         console.error(error);
@@ -51,20 +49,33 @@ function displayFiles(files) {
     }
   }
 
+}
+
+
+function generateReport(type) {
+
+  var report = [];
+
   localForage.iterate(function(value, key, iterationNumber) {
-    // Resulting key/value pair -- this callback
-    // will be executed for every item in the
-    // database.
-    console.log([key, value]);
+    for(var snapshot of value.snapshots){
+      report.push({
+        date: snapshot.date,
+        value: snapshot.battery
+      });
+    }
   }, function() {
-    console.log('Iteration has completed');
+
+
   });
+
+  return report;
 
 }
 
 configureLocalForage();
 listFiles();
-
+var data = generateReport('battery');
+console.log(data);
 
 export default class App extends React.Component {
   render() {
