@@ -1,7 +1,7 @@
 {
-  "name": "react-webpack-babel",
-  "version": "0.0.3",
-  "description": "React Webpack Babel Starter Kit",
+  "name": "reporter",
+  "version": "0.0.1",
+  "description": "Reporter",
   "main": "''",
   "scripts": {
     "build": "webpack --config webpack.production.config.js --progress --profile --colors",
@@ -10,11 +10,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/alicoding/react-webpack-babel"
+    "url": "https://github.com/pixely/reporter"
   },
-  "author": "Ali Al Dallal",
+  "author": "Graham Martin",
   "license": "MIT",
-  "homepage": "https://github.com/alicoding/react-webpack-babel#readme",
+  "homepage": "https://github.com/pixely/reporter",
   "dependencies": {
     "bootstrap": "^4.0.0-alpha.3",
     "dropbox": "^2.2.1",
